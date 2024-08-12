@@ -4,14 +4,14 @@ const bcrypt = require('bcrypt');
 
 const jwt = require('jsonwebtoken');
 
-const createUser = async(username, password) => {
+const createUser = async(username, password, userEmail) => {
   try{
     const encryptPassword = await bcrypt.hash(password, 5);
     console.log(encryptPassword) //make sure this works before commenting this out.
 
     await client.query(`
-      INSERT INTO users (username, password)
-      VALUES ($1, $2);`, [username, encryptPassword])
+      INSERT INTO users (username, password, email)
+      VALUES ($1, $2, $3);`, [username, encryptPassword, userEmail])
 
   }catch(err) {
     console.log('Couldnt create user', err)
