@@ -18,4 +18,21 @@ const createUser = async(username, password) => {
   }
 }
 
-module.export = { createUser }
+
+const getUser = async(username, password) => {
+  const { rows: [ user ] } = await client.query(`
+    SELECT * FROM users
+    WHERE username=$1;`, [username]);
+
+    const passwordMatch = await bcrypt.compare(password, user.password);
+
+    if(user && passwordMatch) {
+      const assignToken = await jwt.sign({userId: user.id }, process.env.JWT_SECRET);
+
+      return assignToken
+    }else {
+      throw new Error('Either username or password do not match our records.')
+    }
+}
+
+module.export = { createUser, getUser }
