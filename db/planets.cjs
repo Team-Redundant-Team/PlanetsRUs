@@ -29,5 +29,19 @@ const getAllPlanets = async() => {
   }
 }
 
+const getPlanetDetails = async (planetName) => {
+  try{
+    const planetDetails = await client.query(`
+      SELECT * FROM planets
+      WHERE name=$1;`,[planetName]);
 
-module.exports = { getOwnedBy, getAllPlanets }
+    return planetDetails.rows.map(row => row.name);
+
+  }catch(err){
+    console.log(`couldnt get ${planetName} details`, err)
+    throw new Error
+  }
+}
+
+
+module.exports = { getOwnedBy, getAllPlanets, getPlanetDetails }
