@@ -19,5 +19,15 @@ const getOwnedBy = async(planetName) =>{
   }
 }
 
+const getAllPlanets = async() => {
+  try{
+    await client.query(`
+      SELECT * FROM planets;`)
+  }catch(err){
+    console.log('couldnt retrieve all planets', err)
+    throw new Error
+  }
+}
 
-module.exports = { getOwnedBy }
+
+module.exports = { getOwnedBy, getAllPlanets }
