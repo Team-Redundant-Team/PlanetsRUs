@@ -19,7 +19,7 @@ const createUsersTable= async() => {
   try {
     await client.query(`
       CREATE TABLE users(
-      user_id SERIAL PRIMARY KEY,
+      id SERIAL PRIMARY KEY,
       username VARCHAR(30) UNIQUE NOT NULL,
       password VARCHAR(60) NOT NULL,
       email VARCHAR(60) UNIQUE NOT NULL
@@ -34,10 +34,11 @@ const createReviewsTable= async()=> {
   try{
     await client.query(`
       CREATE TABLE reviews(
-      review_id SERIAL PRIMARY KEY, 
+      id SERIAL PRIMARY KEY, 
       review TEXT, 
       date DATE,
-      planet_id BIGINT
+      planet_id INT,
+      FOREIGN KEY (planet_id) REFERENCES planets(id) ON DELETE CASCADE
       );
       `);
   }catch(err) {
@@ -49,10 +50,10 @@ const createPlanetsTable= async()=> {
   try{
     await client.query(`
       CREATE TABLE planets(
-      planet_id SERIAL PRIMARY KEY, 
-      planet_name VARCHAR(30) NOT NULL,
+      id SERIAL PRIMARY KEY, 
+      name VARCHAR(30) NOT NULL UNIQUE,
       price FLOAT, 
-      planet_type VARCHAR(30),
+      type VARCHAR(30),
       description TEXT,
       owned_by VARCHAR(30)
       );
@@ -66,7 +67,7 @@ const createCartsTable= async()=> {
   try{
     await client.query(`
       CREATE TABLE carts(
-      cart_id SERIAL PRIMARY KEY, 
+      id SERIAL PRIMARY KEY, 
       is_open BOOLEAN,
       total BIGINT,
       user_id BIGINT
@@ -82,9 +83,9 @@ const createCartsPlanetsTable= async()=> {
   try{
     await client.query(`
       CREATE TABLE carts_planets(
-        cart_planet_id SERIAL PRIMARY KEY, 
-        cart_id INT REFERENCES carts(cart_id) ON DELETE CASCADE,
-        planet_id INT REFERENCES planets(planet_id) ON DELETE CASCADE,
+        id SERIAL PRIMARY KEY, 
+        cart_id INT REFERENCES carts(id) ON DELETE CASCADE,
+        planet_id INT REFERENCES planets(id) ON DELETE CASCADE,
         UNIQUE(cart_id, planet_id)
         );
         `);
@@ -92,20 +93,20 @@ const createCartsPlanetsTable= async()=> {
         console.log("Could not createReviewsTable", err)
   }
 }
-
-const JoinCPTable= async()=> {
-  try{
-    await client.query(`
-      SELECT p.planet_name, p.price, p.planet_type, p.description
-      FROM carts c
-      JOIN carts_planets cp ON c.cart_id = cp.cart_id
-      JOIN planets p ON cp.planet_id = p.planet_id
-      WHERE c.cart_id = 1;
-      `);
-      }catch(err) {
-        console.log("cannot create cartsPlanet Table", err)
-  }
-}
+// fix this later rename and repurpose
+// const JoinCPTable= async()=> {
+//   try{
+//     await client.query(`
+//       SELECT p.planet_name, p.price, p.planet_type, p.description
+//       FROM carts c
+//       JOIN carts_planets cp ON c.cart_id = cp.cart_id
+//       JOIN planets p ON cp.planet_id = p.planet_id
+//       WHERE c.cart_id = 1;
+//       `);
+//       }catch(err) {
+//         console.log("cannot create cartsPlanet Table", err)
+//   }
+// }
 
 const syncAndSeed= async()=> {
   await client.connect();
@@ -126,8 +127,8 @@ const syncAndSeed= async()=> {
   await createCartsPlanetsTable();
   console.log('Carts PLanets Table Created!');
 
-  await JoinCPTable();
-  console.log('join table created')
+  // await JoinCPTable();
+  // console.log('join table created')
 
   await createReviewsTable();
   console.log('ReviewsTable Created!');
