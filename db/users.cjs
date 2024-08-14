@@ -35,4 +35,4 @@ const getUser = async(username, password) => {
     }
 }
 
-module.export = { createUser, getUser }
+module.exports = { createUser, getUser }
