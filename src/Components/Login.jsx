@@ -9,9 +9,10 @@ const Login = ( { setToken } ) => {
 
   const navigate = useNavigate();
 
-  const logInUser = async() => {
+  const logInUser = async(event) => {
+    event.preventDefault();
     try {
-      const response = await axios('./api/login', {
+      const response = await axios.post('./api/login', {
           username: usernameInput,
           password: passwordInput
       });

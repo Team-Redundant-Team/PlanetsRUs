@@ -5,13 +5,14 @@ import axios from 'axios';
 const Signup = () => {
 
   const [usernameInput, setUsernameInput] = useState("");
-  const [emailInput, setEmailInput] = useState("");
+  const [emailInput, setEmailInput] = useState("");g
   const [passwordInput, setPasswordInput] = useState("");
   const [secondaryPasswordInput, setSecondaryPasswordInput] = useState("");
 
   const navigate = useNavigate();
 
-  const registerUser = async() => {
+  const registerUser = async(event) => {
+    event.preventDefault();
     if (passwordInput === secondaryPasswordInput) {
       try {
         const response = await axios.post('api/login', {
