@@ -133,6 +133,17 @@ const syncAndSeed= async()=> {
   await createReviewsTable();
   console.log('ReviewsTable Created!');
 
+  await createUser('Robin', '1234', 'robin@testing.com');
+  console.log('User Robin created!');
+
+  await createUser('Ari', '1234', 'ari@testing.com');
+  console.log('User Ari created!');
+
+  await createUser('Anija', '1234', 'anija@testing.com');
+  console.log('User Anija created!');
+
+  await createUser('victor', '1234', 'victor@testing.com');
+  console.log('User Victor created!');
 
   await client.end();
   console.log('Disconnected from DB!');
