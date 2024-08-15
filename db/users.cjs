@@ -4,6 +4,7 @@ const bcrypt = require('bcrypt');
 
 const jwt = require('jsonwebtoken');
 
+
 const createUser = async(username, password, userEmail) => {
   try{
     const encryptPassword = await bcrypt.hash(password, 5);
@@ -35,4 +36,29 @@ const getUser = async(username, password) => {
     }
 }
 
-module.exports = { createUser, getUser }
+const changePassword = async (userId, newPassword) => {
+  try{
+    const encryptPassword = await bcrypt.hash(newPassword, 5);
+    await client.query(`
+      UPDATE users 
+      SET password = $2
+      WHERE id=$1;`,[userId, encryptPassword]);
+
+  }catch(err) {
+    console.log('could not change password, rip', err);
+  }
+}
+
+const changeEmail = async (userId, newEmail) => {
+  try{
+    await client.query(`
+      UPDATE users
+      SET email =$2
+      WHERE id = $1;`,[userId, newEmail]);
+
+  }catch(err) {
+    console.log(`could not change email`, err);
+  }
+}
+
+module.exports = { createUser, getUser, changePassword, changeEmail }
