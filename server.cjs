@@ -1,6 +1,6 @@
 require('dotenv').config();
 
-// const jwt = require('jsonwebtoken');
+const jwt = require('jsonwebtoken');
 const client = require('./db/client.cjs');
 
 const { createUser, getUser, getUserByToken, changePassword, changeEmail } = require('./db/users.cjs')
@@ -35,11 +35,11 @@ app.post('/api/login', async (req, res, next) => {
     const { username, password } = req.body;
     const assignedToken = await getUser(username, password);
     console.log(assignedToken);
-    res.send(assignedToken);
+    res.json({ token: assignedToken });
   } catch (err){
-    next(err);
+    res.status(401).send('Failed to login');
   }
-})
+});
 
 // register
 // currently newUser will not entirely work because createUser needs to be modified to return success message
@@ -93,10 +93,11 @@ app.put('/api/planets/:planetid', async (req,res,next) =>{
 // get user information via token / logged in
 app.get('/api/users', async (req, res, next) => {
   try {
-    const token = req.headers['authorization'];
+    const authHeaders = req.headers['authorization'];
+    const token = authHeaders.split(' ')[1];
     const user = await getUserByToken(token);
     console.log(user);
-    res.send(user);
+    res.json(user);
   } catch(err) {
     next(err);
   }

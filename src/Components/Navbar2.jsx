@@ -1,7 +1,7 @@
 import { Routes, Route, Link} from "react-router-dom"
-import LoginPage from './loginPage.jsx'
-import PlanetsPage from './planetsPage.jsx'
-import { AuthContext } from '../../AuthContext.js'
+// import LoginPage from './loginPage.jsx'
+// import PlanetsPage from './planetsPage.jsx'
+import { AuthContext } from '../../AuthContext.jsx'
 import React, { useContext } from 'react';
 
 

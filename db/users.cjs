@@ -2,6 +2,7 @@ const client = require('./client.cjs');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
+require('dotenv').config();
 
 const createUser = async(username, password, userEmail) => {
   try{
