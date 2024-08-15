@@ -16,7 +16,7 @@ class SolarSystem {
   }
 
   createStar() {
-    const starGeometry = new THREE.SphereGeometry(Math.random() * 9 + 1, 32, 32);
+    const starGeometry = new THREE.SphereGeometry(Math.random() * 20 + 7, 32, 32);
     const starMaterial = new THREE.MeshBasicMaterial({ color: 0xffff00 });
     const star = new THREE.Mesh(starGeometry, starMaterial);
   
