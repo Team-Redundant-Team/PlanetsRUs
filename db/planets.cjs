@@ -21,8 +21,10 @@ const getOwnedBy = async(planetName) =>{
 
 const getAllPlanets = async() => {
   try{
-    await client.query(`
-      SELECT * FROM planets;`)
+    const dbCall = await client.query(`
+      SELECT * FROM planets;`);
+    return dbCall.rows;
+
   }catch(err){
     console.log('couldnt retrieve all planets', err);
     throw new Error(`coudlnt retrieve all planets`, err);
