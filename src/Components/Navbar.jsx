@@ -1,8 +1,3 @@
-
-// import LoginPage from './loginPage.jsx'
-// import PlanetsPage from './planetsPage.jsx'
-
-
 // const Navbar = () => {
 //   const { token, setToken } = useContext(AuthContext);
 
