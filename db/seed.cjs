@@ -1,5 +1,6 @@
 const client= require('./client.cjs');
 const {createUser}= require('./users.cjs');
+const { createPlanet }=require('./planets.cjs');
 
 const dropTables=async()=> {
   try{
@@ -108,13 +109,34 @@ const createCartsPlanetsTable= async()=> {
 //   }
 // }
 
-const createPlanet = async () => {
-  try{
+const planets = [
+  { name: "Zeltron", price: 2500, type: "Gas Giant", description: "A massive planet with swirling clouds of neon gases." },
+  { name: "Aqualis", price: 1800, type: "Ocean World", description: "A water-covered planet with an extensive network of deep-sea caverns." },
+  { name: "Luminar", price: 3000, type: "Rocky", description: "A planet with crystal formations that glow in the dark." },
+  { name: "Kryptos", price: 2200, type: "Ice World", description: "A frozen planet with towering ice peaks and blizzards." },
+  { name: "Volcarn", price: 2700, type: "Volcanic", description: "A planet with active volcanoes and rivers of molten lava." },
+  { name: "Florania", price: 2000, type: "Forest", description: "A planet covered in thick forests and diverse wildlife." },
+  { name: "Nebulon", price: 3500, type: "Gas Giant", description: "A colossal gas giant with vibrant auroras." },
+  { name: "Thalassa", price: 2300, type: "Ocean World", description: "A planet with calm, crystal-clear oceans and floating islands." },
+  { name: "Pyrros", price: 2600, type: "Volcanic", description: "A fiery planet with constant eruptions and lava flows." },
+  { name: "Cryos", price: 2100, type: "Ice World", description: "A frigid planet with vast glaciers and subzero temperatures." },
+  { name: "Eldoria", price: 2400, type: "Rocky", description: "A planet rich in rare minerals and gemstone deposits." },
+  { name: "Ventara", price: 3200, type: "Gas Giant", description: "A gas giant with violent storms and hurricane-like winds." },
+  { name: "Serenia", price: 1900, type: "Forest", description: "A serene planet with lush greenery and peaceful landscapes." },
+  { name: "Xyphos", price: 2800, type: "Rocky", description: "A planet with rugged terrain and towering mountain ranges." },
+  { name: "Aquilon", price: 1700, type: "Ocean World", description: "A planet with warm, tropical seas and coral reefs." },
+  { name: "Frostia", price: 2000, type: "Ice World", description: "A snow-covered planet with frozen tundras and icy plains." },
+  { name: "Ignis", price: 2900, type: "Volcanic", description: "A planet with an ever-present red glow from its molten surface." },
+  { name: "Verdant", price: 2500, type: "Forest", description: "A planet teeming with life and vibrant plant species." },
+  { name: "Aetheria", price: 3300, type: "Gas Giant", description: "A mystical gas giant with ethereal, cloud-like structures." },
+  { name: "Riviera", price: 2100, type: "Ocean World", description: "A planet with pristine beaches and turquoise waters." },
+  { name: "Granite", price: 2200, type: "Rocky", description: "A planet with vast canyons and stone plateaus." },
+  { name: "Cryona", price: 2400, type: "Ice World", description: "A planet with a thin atmosphere and icy deserts." },
+  { name: "Pyros", price: 3100, type: "Volcanic", description: "A volatile planet with explosive volcanic activity." },
+  { name: "Sylva", price: 2300, type: "Forest", description: "A densely wooded planet with towering ancient trees." },
+  { name: "Zephyra", price: 3400, type: "Gas Giant", description: "A gas giant with gentle breezes and soft, pastel clouds." }
+];
 
-  }catch(err) {
-    console.log('Could not create Planet', err);
-  }
-}
 
 const syncAndSeed= async()=> {
   await client.connect();
@@ -131,6 +153,9 @@ const syncAndSeed= async()=> {
 
   await createCartsTable();
   console.log('Carts Table Created!');
+
+  await planets.forEach(planet => createPlanet(planet.name, planet.price, planet.type, planet.description));
+  console.log('created planets');
   
   await createCartsPlanetsTable();
   console.log('Carts PLanets Table Created!');
