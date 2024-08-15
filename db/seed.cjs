@@ -173,7 +173,7 @@ const syncAndSeed= async()=> {
   await createUser('Robin', '1234', 'robin@testing.com');
   await createUser('Ari', '1234', 'ari@testing.com');
   await createUser('Anija', '1234', 'anija@testing.com');
-  await createUser('victor', '1234', 'victor@testing.com');
+  await createUser('Victor', '1234', 'victor@testing.com');
   console.log('Users created!');
 
 
