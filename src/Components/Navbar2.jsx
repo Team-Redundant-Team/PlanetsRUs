@@ -2,9 +2,6 @@
 // import LoginPage from './loginPage.jsx'
 // import PlanetsPage from './planetsPage.jsx'
 
-// import { Link } from "react-router-dom";
-// import React, { useContext } from 'react';
-// import { AuthContext } from '../../AuthContext.jsx';
 
 // const Navbar = () => {
 //   const { token, setToken } = useContext(AuthContext);
