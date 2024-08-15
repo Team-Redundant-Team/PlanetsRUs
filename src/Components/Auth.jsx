@@ -1,10 +1,12 @@
-import { useState } from 'react';
+import { useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import { AuthContext } from '../../AuthContext'
 
-const Auth= (setToken)=> {
+const Auth= ()=> {
+  const { token, setToken} = useContext(AuthContext);
   const [usernameInput, setUsernameInput] = useState("");
-  const [emailInput, setEmailInput] = useState("");g
+  const [emailInput, setEmailInput] = useState("");
   const [passwordInput, setPasswordInput] = useState("");
   const [secondaryPasswordInput, setSecondaryPasswordInput] = useState("");
   const [showLogin, setShowLogin]= useState(true);
@@ -15,7 +17,7 @@ const Auth= (setToken)=> {
     event.preventDefault();
     if (passwordInput === secondaryPasswordInput) {
       try {
-        const response = await axios.post('api/login', {
+        const response = await axios.post('/api/login', {
           username: usernameInput,
           email: emailInput,
           password: passwordInput
@@ -35,13 +37,20 @@ const Auth= (setToken)=> {
   const logInUser = async(event) => {
     event.preventDefault();
     try {
-      const response = await axios.post('./api/login', {
+      const response = await axios.post('/api/login', {
         username: usernameInput,
         password: passwordInput
       });
+
+      if(response.status === 200) {
+        setToken(response.data.token)
+        navigate('/planets');
+        //localStorage.getItem('authToken') will retrieve the jwt.
+        
+      }else {
+        console.log(`Login failed:`, response.data.message);
+      }
     
-      setToken(response.data);
-      navigate('/planets');
       } catch (error){
         console.log(error);
       }
