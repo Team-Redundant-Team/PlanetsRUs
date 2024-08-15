@@ -32,20 +32,20 @@ const updateUserDetails = () => {
   return (
     <>
       {showChangeEmail ?
-      <>
+      <form>
       <input type="email" value={emailInput} onChange={(event)=>{setEmailInput(event.target.value)}} placeholder='"Enter New Email' /> <br />
       <button onClick={() => {changeEmail()}}>Change Email</button>
-      </> 
+      </form> 
       :
       <button onClick={() => {setShowChangeEmail(true)}}>Want to change your Email?</button>
       }
 
       {showChangePassword ?
-      <>
+      <form>
       <input type="password" value={passwordInput} onChange={(event)=>{setPasswordInput(event.target.value)}} placeholder='"Enter New Password' /> <br />
       <input type="password" value={secondaryPasswordInput} onChange={(event)=>{setSecondaryPasswordInput(event.target.value)}} placeholder='"Enter New Password Again' /> <br />
       <button onClick={()=>{changePW()}}>Change Password</button>
-      </>
+      </form>
       :
       <button onClick={() => {setShowChangePassword(true)}}>Want to change your Email?</button>
       }
