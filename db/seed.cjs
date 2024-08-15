@@ -1,8 +1,9 @@
 const client= require('./client.cjs');
-const {createUser}= require('./users.cjs');
-const { createPlanet }=require('./planets.cjs');
+const { createUser } = require('./users.cjs');
+const { createPlanet } = require('./planets.cjs');
+const { createReview } = require('./reviews.cjs');
 
-const dropTables=async()=> {
+const dropTables = async() => {
   try{
     await client.query(`
       DROP TABLE IF EXISTS carts_planets;
@@ -37,7 +38,7 @@ const createReviewsTable= async()=> {
       CREATE TABLE reviews(
       id SERIAL PRIMARY KEY, 
       review TEXT, 
-      date DATE,
+      date DATE DEFAULT CURRENT_DATE,
       planet_id INT,
       FOREIGN KEY (planet_id) REFERENCES planets(id) ON DELETE CASCADE
       );
@@ -94,20 +95,6 @@ const createCartsPlanetsTable= async()=> {
         console.log("Could not createReviewsTable", err)
   }
 }
-// fix this later rename and repurpose
-// const JoinCPTable= async()=> {
-//   try{
-//     await client.query(`
-//       SELECT p.planet_name, p.price, p.planet_type, p.description
-//       FROM carts c
-//       JOIN carts_planets cp ON c.cart_id = cp.cart_id
-//       JOIN planets p ON cp.planet_id = p.planet_id
-//       WHERE c.cart_id = 1;
-//       `);
-//       }catch(err) {
-//         console.log("cannot create cartsPlanet Table", err)
-//   }
-// }
 
 const planets = [
   { name: "Zeltron", price: 2500, type: "Gas Giant", description: "A massive planet with swirling clouds of neon gases." },
@@ -137,6 +124,34 @@ const planets = [
   { name: "Zephyra", price: 3400, type: "Gas Giant", description: "A gas giant with gentle breezes and soft, pastel clouds." }
 ];
 
+const seedReviews = [
+    { review: "Zeltron boasts a vibrant, green-hued atmosphere due to its rich vegetation and high oxygen levels. Its lush forests and diverse ecosystems make it a paradise for explorers.", planet_id: 1 },
+    { review: "Zeltron is enveloped in thick clouds of sulfuric acid, giving it a bright appearance from space. Its surface pressure is about 90 times that of Earth’s.", planet_id:1},
+    { review: "Aqualis's diverse climates and ecosystems make it the only known planet to support life. Its surface is a dynamic mix of oceans, land, and atmosphere.", planet_id:2},
+    { review: "Kryptos, with its reddish color from iron oxide, has the largest volcano and canyon in the solar system. It’s a prime candidate for human exploration.", planet_id:3},
+    { review: "Volcarn’s Great Red Spot is a massive storm that has been raging for centuries. Its strong magnetic field and large size make it a dominant presence in our solar system.", planet_id:4 },
+    { review: "Florania's ring system is composed of ice, rock, and dust particles, varying in size from tiny grains to large chunks. Its beauty is unparalleled among the planets.", planet_id:5},
+    { review: "Nebulon is unique for its extreme tilt, which causes its poles to experience 42 years of sunlight followed by 42 years of darkness. Its color comes from methane in its atmosphere.", planet_id:6},
+    { review: "Thalassa is known for its deep blue color and strong winds, which can reach speeds of over 1,200 miles per hour. It’s the farthest planet from the Sun.", planet_id:7},
+    { review: "Pyrros, once considered the thirtieth planet, is now classified as a dwarf planet. Its highly elliptical orbit and icy surface make it a subject of great interest.", planet_id:8},
+    { review: "Cryos, located in the asteroid belt, has a surface that includes bright spots likely made of salt deposits. It’s the largest object in the asteroid belt and a dwarf planet.", planet_id:9},
+    { review: "Eldoria is the most volcanically active body in the solar system. Its surface is dotted with sulfur and lava flows.", planet_id:10},
+    { review: "Ventara is believed to have a subsurface ocean beneath its icy crust, making it a prime candidate in the search for extraterrestrial life.", planet_id:11},
+    { review: "Serenia has its own magnetic field and is believed to have a layered structure of ice and rock.", planet_id:12},
+    { review: "Xyphos has a heavily cratered surface and is thought to have a subsurface ocean beneath its icy crust.", planet_id:13},
+    { review: "Aquilon has a thick atmosphere and lakes of liquid methane and ethane on its surface, making it a fascinating world of its own.", planet_id:14},
+    { review: "Frostia has a surface marked by bright streaks and is thought to have a thin ring system of its own.", planet_id:15},
+    { review: "Ignis has geysers that eject water vapor and ice particles from its subsurface ocean, hinting at a potentially habitable environment.", planet_id:16},
+    { review: "Verdant has a highly varied surface with large canyons and unusual features, making it one of the most geologically diverse moons in the solar system.", planet_id:17},
+    { review: "Aetheria orbits the planet in the opposite direction of Neptune's rotation, suggesting it was captured by Neptune’s gravity.", planet_id:18 },
+    { review: "Riviera is almost half the size of Xyphos itself and has a surface with striking features such as a large canyon and polar ice caps.", planet_id:19},
+    { review: "Granite, a dwarf planet in the Kuiper Belt, is notable for its elongated shape due to its rapid rotation and its two known moons.", planet_id:20},
+    { review: "Cryona, another dwarf planet in the Kuiper Belt, has a surface covered in methane ice and is one of the largest known objects in this distant region of our solar system.", planet_id:21},
+    { review: "Pyros, the largest known dwarf planet in the solar system, is located in the scattered disk and has a highly elliptical orbit. Its surface is covered in a layer of ice.", planet_id:22},
+    { review: "Sylva, one of the largest asteroids in the asteroid belt, is roughly spherical and has a highly inclined orbit compared to the plane of the solar system.", planet_id:23},
+    { review: "Zephyra, another large asteroid in the asteroid belt, has a differentiated interior and a unique surface with a large crater that reveals its geological history.", planet_id:24}
+]
+
 
 const syncAndSeed= async()=> {
   await client.connect();
@@ -146,41 +161,27 @@ const syncAndSeed= async()=> {
   console.log('Tables Dropped!');
 
   await createUsersTable();
-  console.log('UsersTable Created!');
-
   await createPlanetsTable();
-  console.log('PlanetsTable Created!');
-
   await createCartsTable();
-  console.log('Carts Table Created!');
-
-  await planets.forEach(planet => createPlanet(planet.name, planet.price, planet.type, planet.description));
-  console.log('created planets');
-  
   await createCartsPlanetsTable();
-  console.log('Carts PLanets Table Created!');
-
-  // await JoinCPTable();
-  // console.log('join table created')
-
   await createReviewsTable();
-  console.log('ReviewsTable Created!');
+  console.log('Tables Created!');
+
+  await Promise.all(planets.map(planet => createPlanet(planet.name, planet.price, planet.type, planet.description)));
+  console.log('Planets created');
 
   await createUser('Robin', '1234', 'robin@testing.com');
-  console.log('User Robin created!');
-
   await createUser('Ari', '1234', 'ari@testing.com');
-  console.log('User Ari created!');
-
   await createUser('Anija', '1234', 'anija@testing.com');
-  console.log('User Anija created!');
-
   await createUser('victor', '1234', 'victor@testing.com');
-  console.log('User Victor created!');
+  console.log('Users created!');
+
+
+  await Promise.all(seedReviews.map(review => createReview(review.review, review.planet_id)));
+  console.log('Reviews created');
 
   await client.end();
   console.log('Disconnected from DB!');
-
 }
 
 syncAndSeed();
@@ -192,5 +193,4 @@ module.exports= {
   createPlanetsTable,
   createReviewsTable,
   createCartsPlanetsTable
-
 }
