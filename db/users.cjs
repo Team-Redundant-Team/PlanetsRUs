@@ -1,7 +1,5 @@
 const client = require('./client.cjs');
-
 const bcrypt = require('bcrypt');
-
 const jwt = require('jsonwebtoken');
 
 
@@ -35,6 +33,17 @@ const getUser = async(username, password) => {
     }
 }
 
+const getUserByToken = async(token) => {
+  const { userId } = jwt.verify(token, process.env.JWT_SECRET);
+  
+  const { rows: [ user ] } = await client.query(`
+    SELECT id, username FROM users
+    WHERE id=${userId}
+  `);
+
+  return user;
+}
+
 const changePassword = async (userId, newPassword) => {
   try{
     const encryptPassword = await bcrypt.hash(newPassword, 5);
@@ -60,4 +69,10 @@ const changeEmail = async (userId, newEmail) => {
   }
 }
 
-module.exports = { createUser, getUser, changePassword, changeEmail }
+module.exports = { 
+  createUser,
+  getUser,
+  getUserByToken,
+  changePassword,
+  changeEmail
+ }
