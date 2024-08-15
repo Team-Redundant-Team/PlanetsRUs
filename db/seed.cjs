@@ -108,6 +108,14 @@ const createCartsPlanetsTable= async()=> {
 //   }
 // }
 
+const createPlanet = async () => {
+  try{
+
+  }catch(err) {
+    console.log('Could not create Planet', err);
+  }
+}
+
 const syncAndSeed= async()=> {
   await client.connect();
   console.log('Connected to the DB');
