@@ -32,27 +32,5 @@ const UserAccount = () => {
   );
 };
 
-// const emailChanger= ()=> {
-//   const [email, setEmail]= useState('');
-//   const [newEmail, setNewEmail]= useState('');
 
-//   const handleChangeEmail= ()=> {
-//     if (newEmail) {
-//       setEmail(newEmail);
-//       setNewEmail('');
-//     }
-//   };
-  
-//   const handleInputChange= (e)=> {
-//     setNewEmail(e.target.value);
-//   };
-
-//   return (
-//     <>
-//     <h1>current Email: {email}</h1>
-//     <input type="email" value={newEmail} onChange={handleInputChange} placeholder='"Enter New Email' />
-//     <button onClick= {handleChangeEmail}>Change Email</button>
-//     </>
-//   )
-// }
 export default UserAccount;
