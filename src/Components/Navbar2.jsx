@@ -3,7 +3,7 @@ import { Routes, Route, Link} from "react-router-dom"
 // import PlanetsPage from './planetsPage.jsx'
 import { AuthContext } from '../../AuthContext.jsx'
 import React, { useContext } from 'react';
-
+import UserAccount from "../../UserAccount.jsx"
 
 const Navbar = () => {
   const { token, setToken }=useContext(AuthContext);
@@ -22,6 +22,7 @@ const Navbar = () => {
       <Route path="/" element="../index.html"/>
       <Route path="planets" element={<PlanetsPage/>}/>
       <Route path="/login" element={<LoginPage/>}/>
+      <Route path="/account" element={<UserAccount/>}/>
     </Routes>
 
       
