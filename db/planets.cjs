@@ -83,5 +83,16 @@ const purchasePlanet = async(userId, planetId) => {
 
 }
 
+const createPlanet = async (planetName, price, type, description) => {
+  try{
+    await client.query(`
+      INSERT INTO planets (name, price, type, description)
+      VALUES ($1, $2, $3, $4);`,[planetName, price, type, description])
+  }catch(err) {
+    console.log('Could not create Planet', err);
+    throw new Error('could not create this planet');
+  }
+}
 
-module.exports = { getOwnedBy, getAllPlanets, getPlanetDetails, purchasePlanet }
+
+module.exports = { getOwnedBy, getAllPlanets, getPlanetDetails, purchasePlanet, createPlanet }
