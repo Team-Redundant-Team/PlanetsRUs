@@ -7,7 +7,7 @@ const Auth= (setToken)=> {
   const [emailInput, setEmailInput] = useState("");g
   const [passwordInput, setPasswordInput] = useState("");
   const [secondaryPasswordInput, setSecondaryPasswordInput] = useState("");
-  const [showLogin, setShowLogin]= usestate(true)
+  const [showLogin, setShowLogin]= useState(true);
   
   const navigate = useNavigate();
   
@@ -47,7 +47,7 @@ const Auth= (setToken)=> {
       }
   }
 
-    return 
+    return (
       <>
         <form>
           <input value={usernameInput} onChange={(event) => { setUsernameInput(event.target.value) }} type="text" placeholder="username" required /> <br />
@@ -68,6 +68,6 @@ const Auth= (setToken)=> {
           }
         </form>
       </>
-  }
+  )}
 }
 export default Auth
