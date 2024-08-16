@@ -68,10 +68,10 @@ const Auth= ()=> {
           }
           { 
             showLogin? 
-            <><button onClick={logInUser}>Log In</button><br /> 
+            <><button onClick={() => {logInUser()}}>Log In</button><br /> 
             <button onClick={() => {setShowLogin(false)}}>Not a User? Sign up HERE</button> </>: 
             <>
-            <button onClick={registerUser}>Sign up</button> 
+            <button onClick={() => {registerUser()}}>Sign up</button> 
             <button onClick={() => {setShowLogin(true)}}>Already a User? Login</button>
           </>
           }
