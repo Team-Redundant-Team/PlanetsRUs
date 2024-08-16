@@ -1,13 +1,16 @@
-// const Navbar = () => {
-//   const { token, setToken } = useContext(AuthContext);
+import React from 'react';
+import { Link } from 'react-router-dom';
 
-//   return (
-//     <nav>
-//       <Link to="/">Home</Link>
-//       <Link to="/planets">Planets</Link>
-//       <Link to="/login">Login</Link>
-//     </nav>
-//   );
-// }
+const Navbar = () => {
+  // const { token, setToken } = useContext(AuthContext);
 
-// export default Navbar;
+  return (
+    <nav>
+      <Link to="/">Home</Link>
+      <Link to="/planets">Planets</Link>
+      <Link to="/auth">Login</Link>
+    </nav>
+  );
+}
+
+export default Navbar;

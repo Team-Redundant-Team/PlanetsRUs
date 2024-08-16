@@ -1,0 +1,18 @@
+'Log files:
+C:\Users\aripi\OneDrive\Desktop\Documents\Coursework\planetsrus\tmpnodejsnpm-cache\_logs\2024-08-16T00_08_56_074Z-debug-0.log
+
+# npm resolution error report
+
+While resolving: planetsrus@0.1.0
+Found: eslint@9.9.0
+node_modules/eslint
+  dev eslint@"^9.8.0" from the root project
+
+Could not resolve dependency:
+peer eslint@"^8.0.0" from eslint-config-react-app@7.0.1
+node_modules/eslint-config-react-app
+  dev eslint-config-react-app@"*" from the root project
+
+Fix the upstream dependency conflict, or retry
+this command with --force or --legacy-peer-deps
+to accept an incorrect (and potentially broken) dependency resolution.
