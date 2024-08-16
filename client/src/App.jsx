@@ -186,9 +186,7 @@ const App = () => {
     </div>
   
       <div ref={mountRef} style={{ width: '100vw', height: '100vh', position: 'relative' }}>
-        <button onClick={stopFollowingPlanet} style={{ position: 'absolute', top: '10px', left: '10px' }}>
-          Stop Following
-        </button>
+        
 
         {/* Planet Details Component */}
         <PlanetDetails selectedPlanet={selectedPlanet} />

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import './Navbar.css'; // Make sure this is linked correctly
+import './Navbar.css';
 
 const Navbar = ({ planetList, handlePlanetClick }) => {
   const [showDropdown, setShowDropdown] = useState(false);
@@ -8,7 +8,6 @@ const Navbar = ({ planetList, handlePlanetClick }) => {
   const toggleDropdown = (event) => {
     event.preventDefault();
     setShowDropdown(!showDropdown);
-    console.log('Dropdown toggled:', !showDropdown);
   };
 
   return (
@@ -31,6 +30,12 @@ const Navbar = ({ planetList, handlePlanetClick }) => {
           ))}
         </ul>
       </div>
+
+      {/* Audio Component */}
+      <audio id="background-audio" controls autoPlay loop className="audio-player">
+        <source src="/universe_sound.mp3" type="audio/mp3" />
+        Your browser does not support the audio element.
+      </audio>
     </div>
   );
 };

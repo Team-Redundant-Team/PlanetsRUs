@@ -80,3 +80,169 @@
   margin-left: 10px;
   font-weight: bold;
 }
+
+/* Audio Container */
+.audio-container {
+  position: fixed;
+  bottom: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: rgba(0, 0, 0, 0.8);
+  padding: 10px 20px;
+  border-radius: 20px;
+  box-shadow: 0 0 20px #00ffcc, 0 0 40px #00ffcc;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  font-family: 'Orbitron', sans-serif;
+}
+
+/* Mute Button */
+.audio-control-button {
+  background-color: transparent;
+  border: none;
+  color: #00ffcc;
+  font-size: 1.5em;
+  cursor: pointer;
+  transition: transform 0.3s ease;
+  margin-right: 10px;
+}
+
+.audio-control-button:hover {
+  transform: scale(1.2);
+}
+
+/* Volume Slider */
+.audio-control-slider {
+  width: 150px;
+  background-color: transparent;
+  appearance: none;
+  outline: none;
+  -webkit-appearance: none;
+  height: 8px;
+  border-radius: 5px;
+  background: linear-gradient(to right, #00ffcc, #0f0c29);
+}
+
+.audio-control-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: #00ffcc;
+  cursor: pointer;
+}
+
+.audio-control-slider::-moz-range-thumb {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: #00ffcc;
+  cursor: pointer;
+}
+
+/* Navbar CSS */
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: linear-gradient(90deg, #0f0c29, #302b63, #24243e); /* Dark space gradient */
+  padding: 10px 20px;
+  font-family: 'Orbitron', sans-serif;
+  box-shadow: 0 0 15px #00ffcc, 0 0 30px #00ffcc;
+  border-bottom: 2px solid #00ffcc;
+}
+
+.navbar a, .dropdown-btn {
+  color: #00ffcc;
+  text-decoration: none;
+  padding: 10px 20px;
+  border: 2px solid #00ffcc;
+  border-radius: 5px;
+  transition: color 0.3s ease, background-color 0.3s ease, transform 0.3s ease;
+  background-color: transparent; /* Default background color */
+}
+
+.navbar a:hover, .dropdown-btn:hover {
+  color: #ff00ff; /* Hover color */
+  background-color: rgba(0, 255, 204, 0.2); /* Background color on hover */
+  transform: scale(1.1); /* Slight hover scaling for a dynamic feel */
+  box-shadow: 0 0 15px #ff00ff, 0 0 30px #ff00ff; /* Glow effect on hover */
+}
+
+/* Dropdown Menu CSS */
+.planet-list-container {
+  position: fixed; /* Fixed to the bottom of the screen */
+  bottom: -100%; /* Start hidden below the screen */
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80%; /* A bit narrower for a sleeker look */
+  background: radial-gradient(circle, rgba(0,0,0,0.9) 0%, rgba(36,36,62,1) 100%);
+  color: #00ffcc;
+  padding: 20px;
+  border-radius: 15px; /* More rounded for a futuristic feel */
+  max-height: 50vh;
+  overflow-y: auto;
+  z-index: 10;
+  font-family: 'Orbitron', sans-serif;
+  box-shadow: 0 0 30px #00ffcc, 0 0 60px #00ffcc; /* Glowing effect */
+  transition: bottom 1s ease-in-out; /* Adjust timing for the slide-up effect */
+  text-align: center;
+  opacity: 0.95;
+  backdrop-filter: blur(10px); /* Glassmorphism effect */
+}
+
+.planet-list-container.show {
+  bottom: 25%; /* Moves the dropdown to the middle of the screen */
+}
+
+.planet-list-container ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.planet-list-container li {
+  cursor: pointer;
+  padding: 12px;
+  margin-bottom: 10px;
+  border-radius: 15px;
+  transition: background-color 0.4s ease, transform 0.3s ease;
+  color: #00ffcc;
+  text-align: center;
+  background: rgba(255, 255, 255, 0.1);
+  box-shadow: 0 0 10px rgba(0, 255, 204, 0.7), 0 0 20px rgba(0, 255, 204, 0.7);
+}
+
+.planet-list-container li:hover {
+  background-color: rgba(0, 255, 204, 0.2);
+  transform: scale(1.1);
+  box-shadow: 0 0 20px rgba(0, 255, 204, 0.9), 0 0 40px rgba(0, 255, 204, 0.9);
+}
+
+/* Audio Player CSS */
+.audio-player {
+  position: fixed;
+  bottom: 10px;
+  right: 10px;
+  background-color: rgba(0, 0, 0, 0.9);
+  border: 2px solid #00ffcc;
+  border-radius: 10px;
+  color: #00ffcc;
+  box-shadow: 0 0 15px #00ffcc, 0 0 30px #00ffcc;
+  padding: 5px;
+  width: 300px;
+}
+
+.audio-player::-webkit-media-controls-panel {
+  background-color: rgba(0, 0, 0, 0.8);
+  border-radius: 10px;
+}
+
+.audio-player::-webkit-media-controls-play-button,
+.audio-player::-webkit-media-controls-volume-slider {
+  color: #00ffcc;
+}
+
+
