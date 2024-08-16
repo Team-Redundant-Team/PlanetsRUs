@@ -1,7 +1,7 @@
-import React, { useEffect } from 'react';
-import {useState} from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import updateUserDetails from './updateUserDetails';
+import updateUserDetails from './updateUserDetails.jsx';
+import Complaints from './Complaints.jsx';
 
 
 const UserAccount = () => {
@@ -29,10 +29,8 @@ const UserAccount = () => {
       <h1>Welcome {user.username}</h1>
         <updateUserDetails />
       <h2>Your Planets Owned</h2>
-      <article></article>
-      <ul>
-        {/* List of planets owned can go here */}
-      </ul>
+      <article>{/* List of planets owned can go here */}</article>
+        <Complaints />
     </>
   );
 };
