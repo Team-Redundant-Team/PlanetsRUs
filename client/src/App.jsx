@@ -188,10 +188,10 @@ const App = () => {
       <div ref={mountRef} style={{ width: '100vw', height: '100vh', position: 'relative' }}>
         
 
-        {/* Planet Details Component */}
+        
         <PlanetDetails selectedPlanet={selectedPlanet} />
 
-        {/* Planet List Dropdown */}
+        
         <div className="planet-list-container">
           <ul className="planet-list">
             {planetList.map((item) => (
