@@ -1,14 +1,14 @@
-/* Sci-Fi Planet Details Box */
+/* Combined Sci-Fi Planet Details Box */
 
 .planet-details {
   position: absolute;
   top: 300px;
   right: 60px;
-  width: 300px;
+  width: 320px; /* Slightly wider for more content */
   background-color: rgba(0, 0, 0, 0.9);
   color: #00ffcc;
-  padding: 15px;
-  border-radius: 5px;
+  padding: 20px;
+  border-radius: 15px; /* Increased radius for a sleeker look */
   box-shadow: 0 0 20px #00ffcc, 0 0 40px #00ffcc;
   font-family: 'Orbitron', sans-serif;
   text-transform: uppercase;
@@ -19,15 +19,22 @@
 
 .planet-details h3 {
   margin-top: 0;
-  font-size: 1.5em;
+  font-size: 1.8em; /* Slightly larger font */
   border-bottom: 2px solid #00ffcc;
   padding-bottom: 10px;
+  text-align: center;
 }
 
 .planet-details p {
   margin: 10px 0;
   font-size: 1.2em;
   color: #ffffff;
+}
+
+.planet-details .planet-price {
+  color: gold;
+  font-weight: bold;
+  font-size: 1.3em; /* Slightly larger for emphasis */
 }
 
 .planet-details .owned-by {
@@ -40,4 +47,26 @@
   display: block;
   margin-top: 5px;
   font-weight: bold;
+}
+
+.buy-now-btn {
+  display: block;
+  width: 100%;
+  padding: 12px; /* Increased padding for a more substantial feel */
+  margin-top: 20px;
+  background-color: #ff1493; /* Bright pink */
+  color: white;
+  font-size: 1.2em;
+  font-family: 'Orbitron', sans-serif;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+  box-shadow: 0 0 20px #ff1493, 0 0 40px #ff1493;
+}
+
+.buy-now-btn:hover {
+  background-color: #ff69b4; /* Lighter pink on hover */
+  transform: scale(1.05);
+  box-shadow: 0 0 30px #ff1493, 0 0 60px #ff1493;
 }

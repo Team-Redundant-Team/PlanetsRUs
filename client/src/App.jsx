@@ -8,6 +8,7 @@ import PlanetDetails from './Components/PlanetDetails.jsx'; // Import the new co
 import axios from 'axios';
 import './PlanetList.css'; // Import the CSS for the dropdown menu
 
+
 import PlanetPage from './Components/Planets.jsx';
 import Auth from './Components/Auth.jsx';
 
@@ -23,6 +24,9 @@ const App = () => {
   const sceneRef = useRef(null);
   const cameraRef = useRef(null);
   const solarSystemsRef = useRef([]);
+  // const [planets, setPlanets] = useState([]);
+  // const [error, setError] = useState(null);
+  // const [loading, setLoading] = useState(true);
 
   const createStarryBackground = (scene) => {
     const starGeometry = new THREE.BufferGeometry();
@@ -170,19 +174,19 @@ const App = () => {
 
   return (
     <>
+    <div className="App">
       <Navbar planetList={planetList} handlePlanetClick={handlePlanetClick} />
   
       <Routes>
         <Route path="/" />
-        <Route path="/Planets" element={<PlanetPage />} />
+        <Route path="/planets" element={<PlanetPage />} />
         <Route path="/Auth" element={<Auth />} />
       </Routes>
       <Outlet />
+    </div>
   
       <div ref={mountRef} style={{ width: '100vw', height: '100vh', position: 'relative' }}>
-        <button onClick={stopFollowingPlanet} style={{ position: 'absolute', top: '10px', left: '10px' }}>
-          Stop Following
-        </button>
+        
 
         {/* Planet Details Component */}
         <PlanetDetails selectedPlanet={selectedPlanet} />
