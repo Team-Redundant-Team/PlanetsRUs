@@ -1,0 +1,74 @@
+/* PlanetList.css */
+
+.planet-list-container {
+  position: absolute;
+  top: -90%;
+  right: 0;
+  left: 0;
+  background-color: rgba(0, 0, 0, 0.9);
+  color: #00ffcc;
+  padding: 10px;
+  border-radius: 0 0 10px 10px;
+  max-height: 50vh;
+  overflow-y: auto;
+  z-index: 10;
+  font-family: 'Orbitron', sans-serif;
+  box-shadow: 0 0 15px #00ffcc, 0 0 30px #00ffcc;
+  transition: top 2s ease-in-out; 
+  text-align: center;
+}
+
+.planet-list-container:hover {
+  top: 0;
+}
+
+.planet-list-container h3 {
+  margin: 0;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #00ffcc;
+  font-size: 1.2em;
+  text-transform: uppercase;
+}
+
+.planet-list-container ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.planet-list-container li {
+  cursor: pointer;
+  padding: 10px;
+  margin-bottom: 8px;
+  border-radius: 5px;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  color: #00ffcc;
+  text-align: center;
+  background: rgba(255, 255, 255, 0.1);
+  box-shadow: 0 0 5px rgba(0, 255, 204, 0.7), 0 0 10px rgba(0, 255, 204, 0.7);
+}
+
+.planet-list-container li:hover {
+  background-color: rgba(0, 255, 204, 0.2);
+  transform: scale(1.05);
+  box-shadow: 0 0 10px rgba(0, 255, 204, 0.9), 0 0 20px rgba(0, 255, 204, 0.9);
+}
+
+.planet-tab {
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
+  height: 30px;
+  background-color: rgba(0, 0, 0, 0.9);
+  color: #00ffcc;
+  text-align: center;
+  border-radius: 0 0 10px 10px;
+  z-index: 11;
+  cursor: pointer;
+  transition: top 2s ease-in-out; /* Increased duration to 2s */
+}
+
+.planet-tab:hover + .planet-list-container {
+  top: 0;
+}
