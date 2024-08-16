@@ -1,12 +1,12 @@
 import React, { useEffect, useRef, useState } from 'react';
 import * as THREE from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
-import SolarSystem from './SolarSystem';
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import Navbar from './Components/Navbar'
+import SolarSystem from './SolarSystem.jsx';
+import { Link, Outlet, Route, Routes } from 'react-router-dom';
+import Navbar from './Components/Navbar.jsx'
 
-import PlanetPage from './Components/Planets';
-import Auth from './Components/Auth';
+import PlanetPage from './Components/Planets.jsx';
+import Auth from './Components/Auth.jsx';
 
 
 
@@ -118,7 +118,7 @@ const App = () => {
         solarSystem.getPlanets().forEach((planet) => {
           const axis = planet.userData.rotationAxis;
           const quaternion = new THREE.Quaternion();
-          const speed = 0.0002;
+          const speed = 0.0005;
 
           quaternion.setFromAxisAngle(axis, speed);
           planet.position.applyQuaternion(quaternion);
@@ -217,6 +217,7 @@ const stopFollowingPlanet = () => {
         <Route path="/Planets" element={<PlanetPage />} />
         <Route path="/Auth" element={<Auth />} />
       </Routes>
+      <Outlet />
 
     
     <div ref={mountRef} style={{ width: '100vw', height: '100vh', position: 'relative' }}>
