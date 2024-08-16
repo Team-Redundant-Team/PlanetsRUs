@@ -10,12 +10,22 @@ const { getPlanetReviews } = require('./db/reviews.cjs')
 const express = require('express');
 const app = express();
 const path = require('path');
+const cors = require('cors');
+const axios = require('axios');
+const bodyParser = require('body-parser');
 
+
+client.connect();
 app.use(express.static(path.join(__dirname, 'public')));
 
+app.use(cors());
+app.use(bodyParser.json());
 app.get('/', (req, res)=> {
   res.sendFile(path.join(__dirname, 'public', 'index.html'));
 })
+
+  // axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+  // axios.defaults.headers.post['Content-Type'] = 'application/json';
 
 // const verifyToken = (req,res,next) => {
 //   const token = req.headers["authorization"];
@@ -34,31 +44,31 @@ app.get('/', (req, res)=> {
 // need to add verifyToken as middleware back to functions that will utilize token if want to test
 
 app.use(express.json());
-client.connect();
 
 // login
-app.post('/api/login', async (req, res, next) => {
+app.post('/api/Auth', async (req, res) => {
   try {
     const { username, password } = req.body;
     const assignedToken = await getUser(username, password);
-    console.log(assignedToken);
     res.json({ token: assignedToken });
-  } catch (err){
+  } catch (err) {
     res.status(401).send('Failed to login');
   }
 });
 
 // register
-// currently newUser will not entirely work because createUser needs to be modified to return success message
 app.post('/api/register', async (req, res, next) => {
-  try{
+  try {
     const { username, password, email } = req.body;
-    await createUser(username, password, email);
-    res.status(200).json({ message: 'User Creation Successful', data: data });
-  } catch(error){
+    console.log(`Register attempt: ${username}, ${email}`);
+    const newUser = await createUser(username, password, email);
+    res.status(200).json({ message: 'User Creation Successful', user: newUser });
+  } catch (error) {
+    console.error('Register error:', error);
     res.status(500).json({ message: 'User Creation Failed', error: error.message });
   }
-})
+});
+
 
 
 // get single planet
@@ -139,6 +149,5 @@ app.put('/api/change-email', async (req, res, next) => {
 
 
 
-
 const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => console.log(`Listening on port: ${PORT}`));
+app.listen(PORT, () => { console.log(`Listening on port: ${PORT}`)});

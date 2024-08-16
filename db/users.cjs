@@ -1,6 +1,7 @@
 const client = require('./client.cjs');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
+const axios =require('axios');
 
 require('dotenv').config();
 
