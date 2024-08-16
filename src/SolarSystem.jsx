@@ -65,7 +65,7 @@ class SolarSystem {
   addPlanet(size, color, distance) {
   const textureLoader = new THREE.TextureLoader();
   const textureIndex = Math.floor(Math.random() * 100) + 1;
-  const texturePath = `/src/textures/texture${textureIndex}.gif`;
+  const texturePath = `/public/textures/texture${textureIndex}.gif`;
 
   let texture;
   try {
