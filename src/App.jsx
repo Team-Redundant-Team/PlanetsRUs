@@ -12,7 +12,7 @@ import Auth from './Components/Auth';
 
 
 const scene = new THREE.Scene();
-const camera = new THREE.PerspectiveCamera(110, window.innerWidth / window.innerHeight, 0.1, 20000);
+const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 20000);
 const renderer = new THREE.WebGLRenderer({ antialias: true });
 
 const App = () => {
@@ -68,7 +68,7 @@ const App = () => {
       console.log(numberOfPlanets);
 
       for (let j = 0; j < numberOfPlanets; j++) {
-        const planetSize = Math.random() * 1.5 + 0.5; // Random planet size between 0.5 and 2
+        const planetSize = Math.random() * 2.5 + 0.5; // Random planet size between 0.5 and 2
         const planetColor = 0xffffff; // Random color
         const distanceFromStar = 10 + j * 5; // Increase distance to space out planets more
         
@@ -95,6 +95,7 @@ const App = () => {
     setPlanetCounter(localCounter);
   };
   
+  camera.position.z = 100; //inital pos for the camera
   
   useEffect(() => {
     renderer.setSize(window.innerWidth, window.innerHeight);
@@ -102,10 +103,9 @@ const App = () => {
 
     const controls = new OrbitControls(camera, renderer.domElement);
     controls.enableDamping = true;
-    controls.dampingFactor = .9;
+    controls.dampingFactor = .25;
     controls.enableZoom = true; // Disable OrbitControls zoom to manage it manually
 
-    camera.position.z = 100; //inital pos for the camera
     sceneRef.current = scene;
     cameraRef.current = camera;
 
@@ -118,17 +118,18 @@ const App = () => {
         solarSystem.getPlanets().forEach((planet) => {
           const axis = planet.userData.rotationAxis;
           const quaternion = new THREE.Quaternion();
-          const speed = 0.0005;
+          const speed = 0.0002;
 
           quaternion.setFromAxisAngle(axis, speed);
           planet.position.applyQuaternion(quaternion);
 
           if (followPlanet && followPlanet.uuid === planet.uuid) {
-            const direction = new THREE.Vector3(0, 0, -.5).applyQuaternion(camera.quaternion);
+            const direction = new THREE.Vector3(0, 0, 5).applyQuaternion(camera.quaternion);
             const offset = direction.multiplyScalar(8); //constant distance instead of zoomDistance
 
-            camera.position.copy(planet.position).add(offset);
+            
             cameraRef.current.lookAt(followPlanet.position.x, followPlanet.position.y, followPlanet.position.z);
+            camera.position.copy(planet.position).add(offset);
 
 
             // console.log("Camera position:", camera.position);
