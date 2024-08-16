@@ -17,7 +17,7 @@ class SolarSystem {
 
   createStar() {
     const textureLoader = new THREE.TextureLoader();
-    const textureIndex = Math.floor(Math.random() * 6) + 1; // Randomly select between sun1.jpg, sun2.jpg, sun3.jpg
+    const textureIndex = Math.floor(Math.random() * 5) + 1; // Randomly select between sun1.jpg, sun2.jpg, sun3.jpg
     const texturePath = `/textures/sun${textureIndex}.jpg`;
   
     const texture = textureLoader.load(texturePath, 

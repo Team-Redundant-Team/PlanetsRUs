@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import './Navbar.css';
+import './Navbar.css'; 
 
 const Navbar = ({ planetList, handlePlanetClick }) => {
   const [showDropdown, setShowDropdown] = useState(false);
@@ -31,11 +31,13 @@ const Navbar = ({ planetList, handlePlanetClick }) => {
         </ul>
       </div>
 
-      {/* Audio Component */}
-      <audio id="background-audio" controls autoPlay loop className="audio-player">
-        <source src="/universe_sound.mp3" type="audio/mp3" />
-        Your browser does not support the audio element.
-      </audio>
+      {/* Styled Audio Component */}
+      <div className="audio-player">
+        <audio id="background-audio" controls autoPlay loop>
+          <source src="/universe_sound.mp3" type="audio/mp3" />
+          Your browser does not support the audio element.
+        </audio>
+      </div>
     </div>
   );
 };
