@@ -3,29 +3,30 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { AuthContext } from '../AuthContext'
 
-const Auth= ()=> {
-  const { token, setToken} = useContext(AuthContext);
+const Auth= ()=> { 
+  const {token, setToken} = useContext(AuthContext);
   const [usernameInput, setUsernameInput] = useState("");
   const [emailInput, setEmailInput] = useState("");
   const [passwordInput, setPasswordInput] = useState("");
   const [secondaryPasswordInput, setSecondaryPasswordInput] = useState("");
   const [showLogin, setShowLogin]= useState(true);
   
+  
   const navigate = useNavigate();
   
-  const registerUser = async(event) => {
-    event.preventDefault();
+  const registerUser = async() => {
+    
     if (passwordInput === secondaryPasswordInput) {
       try {
-        const response = await axios.post('/api/login', {
+        const response = await axios.post('/api/register', {
           username: usernameInput,
-          email: emailInput,
-          password: passwordInput
-        })
+          password: passwordInput,
+          email: emailInput
+        });
           console.log(response);
-          navigate('/login');
+          setShowLogin(true);
         } catch(error){
-        console.log(error);
+          console.log(error);
       }
   
       setUsernameInput("");
@@ -33,9 +34,10 @@ const Auth= ()=> {
       setPasswordInput("");
       setSecondaryPasswordInput("");
     }
+  };
   
-  const logInUser = async(event) => {
-    event.preventDefault();
+  const logInUser = async() => {
+    
     try {
       const response = await axios.post('/api/login', {
         username: usernameInput,
@@ -44,9 +46,9 @@ const Auth= ()=> {
 
       if(response.status === 200) {
         setToken(response.data.token)
-        navigate('/planets');
-        //localStorage.getItem('authToken') will retrieve the jwt.
+        console.log('IT WORKED');
         
+        localStorage.setItem('authToken', response.data.token); 
       }else {
         console.log(`Login failed:`, response.data.message);
       }
@@ -54,29 +56,36 @@ const Auth= ()=> {
       } catch (error){
         console.log(error);
       }
-  }
+    };
 
     return (
       <>
+      <h1>Login Page</h1>
         <form>
-          <input value={usernameInput} onChange={(event) => { setUsernameInput(event.target.value) }} type="text" placeholder="username" required /> <br />
-          <input value={passwordInput} onChange={(event) => { setPasswordInput(event.target.value) }} type="password" placeholder="password" required /> <br />
-          {
-            showLogin? null: <><input value={secondaryPasswordInput} onChange={(event) => { setSecondaryPasswordInput(event.target.value) }} type="password" placeholder="password" required /> 
-            <input value={emailInput} onChange={(event) => { setEmailInput(event.target.value) }} type="email" placeholder="email" required /></>
-            
-          }
-          { 
-            showLogin? 
-            <><button onClick={() => {logInUser()}}>Log In</button><br /> 
-            <button onClick={() => {setShowLogin(false)}}>Not a User? Sign up HERE</button> </>: 
+          <input value={usernameInput} onChange={(event) =>  setUsernameInput(event.target.value)} type="text" placeholder="username" required /> 
+          <br />
+          <input value={passwordInput} onChange={(event) => setPasswordInput(event.target.value)} type="password" placeholder="password" required />
+          <br />
+          {!showLogin && ( 
             <>
-            <button onClick={() => {registerUser()}}>Sign up</button> 
-            <button onClick={() => {setShowLogin(true)}}>Already a User? Login</button>
+            <input value={secondaryPasswordInput} onChange={(event) => setSecondaryPasswordInput(event.target.value)} type="password" placeholder="password" required /> 
+            <input value={emailInput} onChange={(event) => setEmailInput(event.target.value)} type="email" placeholder="email" required /></>
+            
+          )}
+          {showLogin ? (
+            <><button type="submit" onClick={logInUser}>Log In</button>
+            <br /> 
+            <button type="button" onClick={() => setShowLogin(false)}>
+              Not a User? Sign up HERE </button></>
+            ) : (
+            <>
+            <button type="submit" onClick={registerUser}>Sign up</button>
+            <br /> 
+            <button type="button" onClick={() => setShowLogin(true)}>Already a User? Login</button>
           </>
-          }
+          )}
         </form>
       </>
-  )}
-}
+  );
+};
 export default Auth
