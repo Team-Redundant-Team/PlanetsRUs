@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react"
 import axios from "axios";
 
-const Planetdetails = () => {
+const PlanetPage = () => {
   const [allPlanets, setAllPlanets] = useState([]);
   const [planetDetails, setPlanetDetails] = useState({});
   const [planetReviews, setPlanetReviews] = useState([]);
@@ -24,7 +24,7 @@ const Planetdetails = () => {
     <main>
       {
         showPlanet? <>
-          {singlePlanet.map((planet) => {
+          {planetDetails.map((planet) => {
             return (<>
                 <button onClick={()=>setShowPlanet(false)}> See other Planets </button>
                 <h2>{planet.name}</h2> <br />
@@ -55,4 +55,4 @@ const Planetdetails = () => {
   )
 }
 
-export default Planets
+export default PlanetPage
