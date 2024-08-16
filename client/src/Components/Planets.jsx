@@ -3,7 +3,7 @@ import axios from "axios";
 
 const PlanetPage = () => {
   const [planets, setPlanets] = useState([]);  // Initialize with an empty array
-  const [error, setError] = useState(null);  // For error handling
+  const [error, setError] = useState(null);  
   const [loading, setLoading] = useState(true);  // To handle loading state
 
   useEffect(() => {
@@ -26,7 +26,7 @@ const PlanetPage = () => {
   }
 
   if (error) {
-    return <div>{error}</div>;  // Display error message if request failed
+    return <div>{error}</div>;  
   }
 
   if (planets.length === 0) {

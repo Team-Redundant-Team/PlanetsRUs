@@ -1,5 +1,3 @@
-/* Sci-Fi Login Page */
-
 .login-container {
   position: absolute;
   top: 50%;
@@ -28,7 +26,7 @@
 .login-container input[type="text"],
 .login-container input[type="password"],
 .login-container input[type="email"] {
-  width: 85%; /* Reduced width to make the input boxes shorter */
+  width: 85%; 
   padding: 15px;
   margin: 10px 0;
   background-color: rgba(255, 255, 255, 0.1);
