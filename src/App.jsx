@@ -1,9 +1,13 @@
-import React, { useEffect, useRef, useState, useCallback } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import * as THREE from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 import SolarSystem from './SolarSystem';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-// import Navabar from './Components/Navbar2'
+import Navbar from './Components/Navbar'
+
+import PlanetPage from './Components/Planets';
+import Auth from './Components/Auth';
+
 
 
 
@@ -205,6 +209,16 @@ const stopFollowingPlanet = () => {
 
   return (
     
+    <>
+    <Navbar />
+
+      <Routes>
+        <Route path="/" />
+        <Route path="/Planets" element={<PlanetPage />} />
+        <Route path="/Auth" element={<Auth />} />
+      </Routes>
+
+    
     <div ref={mountRef} style={{ width: '100vw', height: '100vh', position: 'relative' }}>
       <button onClick={() => createRandomSolarSystems(sceneRef.current)} style={{ position: 'absolute', top: '10px', left: '10px' }}>
         Add Solar System
@@ -227,13 +241,13 @@ const stopFollowingPlanet = () => {
         <ul>
           {planetList.map((item) => (
             <li 
-              key={item.id}
-              style={{ cursor: 'pointer' }}
-              onClick={() => {
-                console.log('ITEM:', item)
-                handlePlanetClick(item.planet)}
-
-              } 
+            key={item.id}
+            style={{ cursor: 'pointer' }}
+            onClick={() => {
+              console.log('ITEM:', item)
+              handlePlanetClick(item.planet)}
+              
+            } 
             >
               {item.name}
             </li>
@@ -241,6 +255,7 @@ const stopFollowingPlanet = () => {
         </ul>
       </div>
     </div>
+  </>
     
   );
 };

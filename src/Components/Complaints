@@ -1,0 +1,14 @@
+const Complaints = () => {
+
+  return (
+    <>
+      <h2>Complaint Form</h2>
+      <form>
+        <textarea rows="10" columns="50" ></textarea> <br />
+        <submit></submit>
+      </form>
+    </>
+  )
+}
+
+export default Complaints
