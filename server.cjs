@@ -1,51 +1,63 @@
 require('dotenv').config();
 
+const express = require('express');
+const path = require('path');
+const cors = require('cors');
+const bodyParser = require('body-parser');
 const jwt = require('jsonwebtoken');
 const client = require('./db/client.cjs');
 
-const { createUser, getUser, getUserByToken, changePassword, changeEmail } = require('./db/users.cjs')
-const { getAllPlanets, getPlanetDetails, getOwnedBy, purchasePlanet} = require('./db/planets.cjs')
-const { getPlanetReviews } = require('./db/reviews.cjs')
 
-const express = require('express');
+
+
+const {
+  createUser,
+  getUser,
+  getUserByToken,
+  changePassword,
+  changeEmail,
+} = require('./db/users.cjs');
+const {
+  getAllPlanets,
+  getPlanetDetails,
+  getOwnedBy,
+  purchasePlanet,
+} = require('./db/planets.cjs');
+const { getPlanetReviews } = require('./db/reviews.cjs');
+
 const app = express();
-const path = require('path');
-const cors = require('cors');
-const axios = require('axios');
-const bodyParser = require('body-parser');
 
-
+// Connect to the database
 client.connect();
-app.use(express.static(path.join(__dirname, 'public')));
 
+// Middleware
 app.use(cors());
 app.use(bodyParser.json());
-app.get('/', (req, res)=> {
+app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.json()); // This already includes bodyParser.json()
+
+// Serve the index.html file
+app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'index.html'));
-})
+});
 
-  // axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
-  // axios.defaults.headers.post['Content-Type'] = 'application/json';
+// Middleware for token verification
+const verifyToken = (req, res, next) => {
+  const token = req.headers['authorization'];
+  if (!token) {
+    return res.status(403).send('Bad Token');
+  }
+  try {
+    const decoded = jwt.verify(token.split(' ')[1], process.env.JWT_SECRET);
+    req.user = decoded;
+  } catch (error) {
+    console.error(error);
+    return res.status(403).send('Invalid Token');
+  }
+  return next();
+};
 
-// const verifyToken = (req,res,next) => {
-//   const token = req.headers["authorization"];
-//   if (!token){
-//     return res.status(403).send('Bad Token')
-//   }
-//   try{
-//     const decoder = jwt.verify(token.split(' ')[1], JWT_SECRET);
-//     req.user = decoder;
-//   } catch(error){
-//     console.log(error)
-//   } 
-//   return next();
-// }
-
-// need to add verifyToken as middleware back to functions that will utilize token if want to test
-
-app.use(express.json());
-
-// login
+// Authentication routes
 app.post('/api/Auth', async (req, res) => {
   try {
     const { username, password } = req.body;
@@ -56,8 +68,7 @@ app.post('/api/Auth', async (req, res) => {
   }
 });
 
-// register
-app.post('/api/register', async (req, res, next) => {
+app.post('/api/register', async (req, res) => {
   try {
     const { username, password, email } = req.body;
     console.log(`Register attempt: ${username}, ${email}`);
@@ -69,85 +80,72 @@ app.post('/api/register', async (req, res, next) => {
   }
 });
 
-
-
-// get single planet
-// will also need to get reviews (need to create getReviews & also seed data)
+// Planet routes
 app.get('/api/planets/:planetid', async (req, res, next) => {
   try {
-    const id = parseInt(req.params.planetid)
+    const id = parseInt(req.params.planetid);
     const planet = await getPlanetDetails(id);
     const reviews = await getPlanetReviews(id);
     res.send({ planet, reviews });
-  } catch (err){
+  } catch (err) {
     next(err);
   }
-})
+});
 
-// get all planets
 app.get('/api/planets', async (req, res, next) => {
   try {
-    const planets  = await getAllPlanets();
-    res.send(planets);
-  } catch (err){
+    const planets = await getAllPlanets();
+    res.json(planets);
+  } catch (err) {
     next(err);
   }
-})
+});
 
-// planet purchase
-app.put('/api/planets/:planetid', async (req,res,next) =>{
+app.put('/api/planets/:planetid', verifyToken, async (req, res, next) => {
   try {
-    const token = req.headers.authorization;
-    const user = await getUserByToken(token);
-    const planetid = parseInt(req.params.planetid)
+    const user = await getUserByToken(req.user);
+    const planetid = parseInt(req.params.planetid);
     const purchasedPlanet = await purchasePlanet(user.id, planetid);
     res.send(purchasedPlanet);
-  } catch (err){
+  } catch (err) {
     next(err);
   }
-})
+});
 
-// get user information via token / logged in
-app.get('/api/users', async (req, res, next) => {
+// User routes
+app.get('/api/users', verifyToken, async (req, res, next) => {
   try {
-    const authHeaders = req.headers['authorization'];
-    const token = authHeaders.split(' ')[1];
-    const user = await getUserByToken(token);
-    console.log(user);
+    const user = await getUserByToken(req.user);
     res.json(user);
-  } catch(err) {
+  } catch (err) {
     next(err);
   }
-})
+});
 
-// change password - need to make changePassword function
-app.put('/api/change-pw', async (req, res, next) => {
+app.put('/api/change-pw', verifyToken, async (req, res, next) => {
   try {
-    const token = req.headers.authorization;
-    const user = await getUserByToken(token);
+    const user = await getUserByToken(req.user);
     const { newPassword } = req.body;
     await changePassword(user.id, newPassword);
-    res.status(200).json({ message: 'Password Change Successful', data: data })
-  } catch (err){
-    res.status(500).json({ message: 'Password Change Failed', error: error.message });
+    res.status(200).json({ message: 'Password Change Successful' });
+  } catch (err) {
+    res.status(500).json({ message: 'Password Change Failed', error: err.message });
   }
-})
+});
 
-// change email - need to make changeEmail function
-app.put('/api/change-email', async (req, res, next) => {
+app.put('/api/change-email', verifyToken, async (req, res, next) => {
   try {
-    const token = req.headers.authorization;
-    const user = await getUserByToken(token);;
+    const user = await getUserByToken(req.user);
     const { newEmail } = req.body;
     await changeEmail(user.id, newEmail);
-    res.status(200).json({ message: 'Email Change Successful', data: data })
-  } catch (err){
-    res.status(500).json({ message: 'Email Change Failed', error: error.message });
+    res.status(200).json({ message: 'Email Change Successful' });
+  } catch (err) {
+    res.status(500).json({ message: 'Email Change Failed', error: err.message });
   }
-})
+});
 
-
-
-
-const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => { console.log(`Listening on port: ${PORT}`)});
+// Start the server
+const PORT = process.env.PORT || 5000;
+app.listen(PORT, () => {
+  console.log(`Listening on port: ${PORT}`);
+});
