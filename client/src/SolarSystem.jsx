@@ -16,8 +16,23 @@ class SolarSystem {
   }
 
   createStar() {
-    const starGeometry = new THREE.SphereGeometry(Math.random() * 20 + 7, 32, 32);
-    const starMaterial = new THREE.MeshBasicMaterial({ color: 0xffff00 });
+    const textureLoader = new THREE.TextureLoader();
+    const textureIndex = Math.floor(Math.random() * 5) + 1; // Randomly select between sun1.jpg, sun2.jpg, sun3.jpg
+    const texturePath = `/textures/sun${textureIndex}.jpg`;
+  
+    const texture = textureLoader.load(texturePath, 
+      (texture) => {
+        console.log(`Texture sun${textureIndex} loaded successfully.`);
+      },
+      undefined, 
+      (error) => {
+        console.error(`Error loading texture sun${textureIndex}:`, error);
+      }
+    );
+  
+    // Create the star material using the loaded texture
+    const starMaterial = new THREE.MeshBasicMaterial({ map: texture });
+    const starGeometry = new THREE.SphereGeometry(Math.random() * 20 + 15, 32, 32);
     const star = new THREE.Mesh(starGeometry, starMaterial);
   
     let maxAttempts = 100; // Limit the number of attempts to find a valid position
@@ -59,6 +74,7 @@ class SolarSystem {
     this.scene.add(star);
     return star;
   }
+  
   
   
 
