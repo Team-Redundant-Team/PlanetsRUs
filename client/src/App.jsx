@@ -4,8 +4,9 @@ import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 import SolarSystem from './SolarSystem.jsx';
 import { Link, Outlet, Route, Routes } from 'react-router-dom';
 import Navbar from './Components/Navbar.jsx';
+import PlanetDetails from './Components/PlanetDetails.jsx'; // Import the new component
 import axios from 'axios';
-import './PlanetList.css';
+import './PlanetList.css'; // Import the CSS for the dropdown menu
 
 import PlanetPage from './Components/Planets.jsx';
 import Auth from './Components/Auth.jsx';
@@ -17,6 +18,7 @@ const renderer = new THREE.WebGLRenderer({ antialias: true });
 const App = () => {
   const mountRef = useRef(null);
   const [planetList, setPlanetList] = useState([]); 
+  const [selectedPlanet, setSelectedPlanet] = useState(null);  // For the planet details box
   const [followPlanet, setFollowPlanet] = useState(null);  
   const sceneRef = useRef(null);
   const cameraRef = useRef(null);
@@ -57,8 +59,11 @@ const App = () => {
           name: planet.name,
           type: planet.type,
           price: planet.price,
+          description: planet.description,
+          ownedBy: planet.ownedBy || [],  // Assuming the API provides this
         }));
         
+        // Only set the planetList once, no need to call it in createSolarSystems
         setPlanetList(fetchedPlanets);
         createSolarSystems(fetchedPlanets);
       } catch (error) {
@@ -78,11 +83,13 @@ const App = () => {
       const planet = solarSystem.addPlanet(planetSize, 0xffffff, distanceFromStar);
       
       planet.userData.planetId = planetData.id;
+
+      planetData.planet = planet;
     });
 
     solarSystemsRef.current.push(solarSystem);
   };
-  
+
   camera.position.z = 100;
 
   useEffect(() => {
@@ -147,13 +154,13 @@ const App = () => {
     };
   }, [followPlanet]);
 
-  const handlePlanetClick = (planetId) => {
-    const planet = planetList.find((item) => item.id === planetId);
+  const handlePlanetClick = (planet) => {
     if (!planet) {
-      console.error("Attempted to follow an undefined planet.");
-      return;
+        console.error("Attempted to follow an undefined planet.");
+        return;
     }
 
+    setSelectedPlanet(planet);
     setFollowPlanet(planet);
   };
 
@@ -163,26 +170,31 @@ const App = () => {
 
   return (
     <>
-      <Navbar />
-    
+      <Navbar planetList={planetList} handlePlanetClick={handlePlanetClick} />
+  
       <Routes>
         <Route path="/" />
         <Route path="/Planets" element={<PlanetPage />} />
         <Route path="/Auth" element={<Auth />} />
       </Routes>
       <Outlet />
-    
+  
       <div ref={mountRef} style={{ width: '100vw', height: '100vh', position: 'relative' }}>
         <button onClick={stopFollowingPlanet} style={{ position: 'absolute', top: '10px', left: '10px' }}>
           Stop Following
         </button>
+
+        {/* Planet Details Component */}
+        <PlanetDetails selectedPlanet={selectedPlanet} />
+
+        {/* Planet List Dropdown */}
         <div className="planet-list-container">
-          <h3>Planet List</h3>
-          <ul>
+          <ul className="planet-list">
             {planetList.map((item) => (
               <li
-                key={item.id}
-                onClick={() => handlePlanetClick(item.id)}
+                key={item.id}  // Ensure each item has a unique and consistent key
+                style={{ cursor: 'pointer' }}
+                onClick={() => handlePlanetClick(item)}  // Set the selected planet details
               >
                 {item.name}
               </li>
@@ -192,6 +204,6 @@ const App = () => {
       </div>
     </>
   );
-}  
+};
 
 export default App;

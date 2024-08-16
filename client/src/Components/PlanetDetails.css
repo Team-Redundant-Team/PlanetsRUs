@@ -1,0 +1,43 @@
+/* Sci-Fi Planet Details Box */
+
+.planet-details {
+  position: absolute;
+  top: 300px;
+  right: 60px;
+  width: 300px;
+  background-color: rgba(0, 0, 0, 0.9);
+  color: #00ffcc;
+  padding: 15px;
+  border-radius: 5px;
+  box-shadow: 0 0 20px #00ffcc, 0 0 40px #00ffcc;
+  font-family: 'Orbitron', sans-serif;
+  text-transform: uppercase;
+  z-index: 10;
+  max-height: 80vh;
+  overflow-y: auto;
+}
+
+.planet-details h3 {
+  margin-top: 0;
+  font-size: 1.5em;
+  border-bottom: 2px solid #00ffcc;
+  padding-bottom: 10px;
+}
+
+.planet-details p {
+  margin: 10px 0;
+  font-size: 1.2em;
+  color: #ffffff;
+}
+
+.planet-details .owned-by {
+  margin-top: 20px;
+  font-size: 1em;
+  color: #ffcc00;
+}
+
+.planet-details .owned-by span {
+  display: block;
+  margin-top: 5px;
+  font-weight: bold;
+}
