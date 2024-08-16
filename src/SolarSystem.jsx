@@ -65,9 +65,19 @@ class SolarSystem {
   addPlanet(size, color, distance) {
   const textureLoader = new THREE.TextureLoader();
   const textureIndex = Math.floor(Math.random() * 100) + 1;
-  const texturePath = `/public/textures/texture${textureIndex}.gif`;
+  const texturePath = `/textures/texture${textureIndex}.gif`;
 
-  let texture;
+  const texture = textureLoader.load(texturePath, (texture) => {
+    
+    console.log(`Texture ${textureIndex} loaded successfully.`);
+  },
+  undefined, 
+  (error) => {
+    
+    console.error(`Error loading texture ${textureIndex}:`, error);
+  }
+);
+
   try {
     texture = textureLoader.load(texturePath);
   } catch (error) {
