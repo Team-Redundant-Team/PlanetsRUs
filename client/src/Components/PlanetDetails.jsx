@@ -2,15 +2,13 @@ import React from 'react';
 import './PlanetDetails.css';
 
 const PlanetDetails = ({ selectedPlanet }) => {
-  if (!selectedPlanet) {
-    return <div className="planet-details">Select a planet to see details</div>;
-  }
+  if (!selectedPlanet) return <div className="planet-details">No planet selected.</div>;
 
   return (
     <div className="planet-details">
       <h3>{selectedPlanet.name}</h3>
       <p>Type: {selectedPlanet.type}</p>
-      <p>Price: {selectedPlanet.price}</p>
+      <p>Price: <span className="planet-price">${selectedPlanet.price}</span></p>
       <p>Description: {selectedPlanet.description}</p>
       <div className="owned-by">
         <p>Owned by:</p>
@@ -20,6 +18,7 @@ const PlanetDetails = ({ selectedPlanet }) => {
           <span>No owners</span>
         )}
       </div>
+      <button className="buy-now-btn">Buy It Now</button>
     </div>
   );
 };
