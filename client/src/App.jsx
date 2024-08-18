@@ -6,8 +6,7 @@ import { Link, Outlet, Route, Routes } from 'react-router-dom';
 import Navbar from './Components/Navbar.jsx';
 import PlanetDetails from './Components/PlanetDetails.jsx'; // Import the new component
 import axios from 'axios';
-import './PlanetList.css'; // Import the CSS for the dropdown menu
-
+import UserAccount  from './Components/UserAccount.jsx';
 
 import PlanetPage from './Components/Planets.jsx';
 import Auth from './Components/Auth.jsx';
@@ -24,9 +23,7 @@ const App = () => {
   const sceneRef = useRef(null);
   const cameraRef = useRef(null);
   const solarSystemsRef = useRef([]);
-  // const [planets, setPlanets] = useState([]);
-  // const [error, setError] = useState(null);
-  // const [loading, setLoading] = useState(true);
+  
 
   const createStarryBackground = (scene) => {
     const starGeometry = new THREE.BufferGeometry();
@@ -122,12 +119,12 @@ const App = () => {
           quaternion.setFromAxisAngle(axis, speed);
           planet.position.applyQuaternion(quaternion);
 
-          const rotationSpeed = 0.0001;
+          const rotationSpeed = 0.001;
           planet.rotation.y += rotationSpeed;
 
           if (followPlanet && followPlanet.id === planet.userData.planetId) {
-            const direction = new THREE.Vector3(0, 0, 5).applyQuaternion(camera.quaternion);
-            const offset = direction.multiplyScalar(8);
+            const direction = new THREE.Vector3(0, 0, 10).applyQuaternion(camera.quaternion);
+            const offset = direction.multiplyScalar(1);
 
             cameraRef.current.lookAt(planet.position.x, planet.position.y, planet.position.z);
             camera.position.copy(planet.position).add(offset);
@@ -168,6 +165,8 @@ const App = () => {
     setFollowPlanet(planet);
   };
 
+  
+
   const stopFollowingPlanet = () => {
     setFollowPlanet(null);
   };
@@ -179,10 +178,11 @@ const App = () => {
   
       <Routes>
         <Route path="/" />
-        <Route path="/planets" element={<PlanetPage />} />
+        
         <Route path="/Auth" element={<Auth />} />
+        <Route path='/account' element={<UserAccount />} />
       </Routes>
-      <Outlet />
+      
     </div>
   
       <div ref={mountRef} style={{ width: '100vw', height: '100vh', position: 'relative' }}>

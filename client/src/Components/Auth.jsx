@@ -2,7 +2,7 @@ import { useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { AuthContext } from '../AuthContext';
-import './Login.css'; // Import the CSS file
+import './Login.css'; 
 
 const Auth = () => { 
   const { token, setToken } = useContext(AuthContext);
@@ -44,7 +44,7 @@ const Auth = () => {
 
       if (response.status === 200) {
         setToken(response.data.token);
-        navigate('/planets')
+        navigate('/account')
         localStorage.setItem('authToken', response.data.token); 
       } else {
         console.log(`Login failed:`, response.data.message);

@@ -1,6 +1,7 @@
 import { useState } from "react";
+import axios from 'axios'
 
-const updateUserDetails = () => {
+const UpdateUserDetails = () => {
   const [emailInput, setEmailInput]= useState('');
   const [passwordInput, setPasswordInput]= useState('');
   const [secondaryPasswordInput, setSecondaryPasswordInput]= useState('');
@@ -53,4 +54,4 @@ const updateUserDetails = () => {
   )
 }
 
-export default updateUserDetails
+export default UpdateUserDetails

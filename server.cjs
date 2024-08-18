@@ -34,7 +34,7 @@ client.connect();
 app.use(cors());
 app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname, 'public')));
-app.use(express.json()); // This already includes bodyParser.json()
+app.use(express.json()); 
 
 // Serve the index.html file
 app.get('/', (req, res) => {
@@ -58,7 +58,7 @@ const verifyToken = (req, res, next) => {
 };
 
 // Authentication routes
-app.post('/api/Auth', async (req, res) => {
+app.post('/api/Login', async (req, res) => {
   try {
     const { username, password } = req.body;
     const assignedToken = await getUser(username, password);
@@ -144,7 +144,7 @@ app.put('/api/change-email', verifyToken, async (req, res, next) => {
   }
 });
 
-// Start the server
+
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
   console.log(`Listening on port: ${PORT}`);
