@@ -44,7 +44,7 @@ const Auth = () => {
 
       if (response.status === 200) {
         setToken(response.data.token);
-        navigate('/planets')
+        navigate('/account')
         localStorage.setItem('authToken', response.data.token); 
       } else {
         console.log(`Login failed:`, response.data.message);

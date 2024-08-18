@@ -11,34 +11,34 @@ const Navbar = ({ planetList, handlePlanetClick }) => {
   };
 
   return (
-    <div>
-      <nav className="navbar">
-        <Link to="/">Home</Link>
-        <button className="dropdown-btn" onClick={toggleDropdown}>Planets</button>
-        <Link to="/auth">Login</Link>
-      </nav>
-
-      <div className={`planet-list-container ${showDropdown ? 'show' : ''}`}>
-        <ul className="planet-list">
-          {planetList.map((item) => (
-            <li
-              key={item.id}
-              onClick={() => handlePlanetClick(item)}
-            >
-              {item.name} <span className='planet-price'>${item.price}</span>
-            </li>
-          ))}
-        </ul>
-      </div>
-
-      {/* Styled Audio Component */}
+    <>
       <div className="audio-player">
-        <audio id="background-audio" controls autoPlay loop>
-          <source src="/universe_sound.mp3" type="audio/mp3" />
+        <audio id="audio-player" src="./universe_sound.mp3" type="audio/mp3" controls>
           Your browser does not support the audio element.
         </audio>
       </div>
-    </div>
+      <div>
+        <nav className="navbar">
+          <Link to="/">Home</Link>
+          <button className="dropdown-btn" onClick={toggleDropdown}>Planets</button>
+          <Link to="/auth">Login</Link>
+          <Link to='/account'>Account</Link>
+        </nav>
+
+        <div className={`planet-list-container ${showDropdown ? 'show' : ''}`}>
+          <ul className="planet-list">
+            {planetList.map((item) => (
+              <li
+                key={item.id}
+                onClick={() => handlePlanetClick(item)}
+              >
+                {item.name} <span className='planet-price'>${item.price}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </div>
+    </>
   );
 };
 

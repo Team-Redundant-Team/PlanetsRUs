@@ -1,6 +1,6 @@
 import * as THREE from 'three';
 import calculateDistance from './utils';
-
+import { useEffect, useState } from 'react'
 export const MIN_DISTANCE = 5; // Minimum allowed distance between objects
 const MAX_STAR_DISTANCE = 1000; // Maximum allowed distance between stars
 
@@ -17,7 +17,7 @@ class SolarSystem {
 
   createStar() {
     const textureLoader = new THREE.TextureLoader();
-    const textureIndex = Math.floor(Math.random() * 5) + 1; // Randomly select between sun1.jpg, sun2.jpg, sun3.jpg
+    const textureIndex = Math.floor(Math.random() * 7) + 1; // Randomly select between sun1.jpg, sun2.jpg, sun3.jpg
     const texturePath = `/textures/sun${textureIndex}.jpg`;
   
     const texture = textureLoader.load(texturePath, 
@@ -83,7 +83,7 @@ class SolarSystem {
   const textureIndex = Math.floor(Math.random() * 100) + 1;
   const texturePath = `/textures/texture${textureIndex}.gif`;
 
-  const texture = textureLoader.load(texturePath, (texture) => {
+  let texture = textureLoader.load(texturePath, (texture) => {
     
     console.log(`Texture ${textureIndex} loaded successfully.`);
   },
