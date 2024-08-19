@@ -1,38 +1,50 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
 import UpdateUserDetails from './updateUserDetails.jsx';
 import { useNavigate } from 'react-router-dom';
+import isAuthenticated from './tokencheck.jsx';
 
 
 
 const UserAccount = () => {
-  const [user, setUser] = useState("");
-  
+  const [userName, setUserName] = useState(null);
+  const navigate = useNavigate();
 
+  useEffect(() => {
+    const fetchUserData = async () => {
+      const token = localStorage.getItem('token');
 
-  // useEffect(()=>{
-  //   try{
-  //     const getUserData = async () => {
-  //       const token = axios.headers.authorization.split(" ")[1];
-  //       const response = await axios.get('/api/users', {
-  //         headers: {
-  //           'Authorization': `Bearer ${token}`
-  //         } // may not need lines 15-16 due to api deconstruct in server.cjs for the call
-  //       })
-  //       setUser(response);
-  //     }
-  //     getUserData();
-  //   } catch (error){
-  //     console.log('unable to get user data');
-  //   }
-  // },[])
+      try{
+        const response = await fetch('/api/user-account', {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`,
+          },
+        });
+
+        if(response.ok) {
+          const data =await response.json();
+          setUserName(data.name);
+
+        }else {
+          navigate('/auth');
+        }
+
+      }catch(err){
+        console.log('failed to fetch data', err);
+        navigate('/auth');
+      }
+    }
+
+    fetchUserData();
+  },[navigate]);
 
   return (
     <>
-     <h1>Welcome {user.username}</h1>
+     {userName ? <h1>Welcome to Space {userName}</h1> : <h2>Still Loading.....</h2>}
         <UpdateUserDetails />
       <h2>Your Planets Owned</h2>
-      <article>{/* List of planets owned can go here */}</article>
+      <article>{/* planets owned will go here */}</article>
       
      
     </>

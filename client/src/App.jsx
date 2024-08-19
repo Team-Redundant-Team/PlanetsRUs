@@ -8,6 +8,7 @@ import PlanetDetails from './Components/PlanetDetails.jsx'; // Import the new co
 import axios from 'axios';
 import UserAccount  from './Components/UserAccount.jsx';
 
+
 import PlanetPage from './Components/Planets.jsx';
 import Auth from './Components/Auth.jsx';
 
@@ -23,7 +24,9 @@ const App = () => {
   const sceneRef = useRef(null);
   const cameraRef = useRef(null);
   const solarSystemsRef = useRef([]);
+ 
   
+
 
   const createStarryBackground = (scene) => {
     const starGeometry = new THREE.BufferGeometry();
@@ -173,12 +176,13 @@ const App = () => {
 
   return (
     <>
+
+
     <div className="App">
       <Navbar planetList={planetList} handlePlanetClick={handlePlanetClick} />
   
       <Routes>
         <Route path="/" />
-        
         <Route path="/Auth" element={<Auth />} />
         <Route path='/account' element={<UserAccount />} />
       </Routes>

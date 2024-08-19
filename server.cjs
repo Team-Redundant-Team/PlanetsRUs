@@ -27,21 +27,21 @@ const { getPlanetReviews } = require('./db/reviews.cjs');
 
 const app = express();
 
-// Connect to the database
+
 client.connect();
 
-// Middleware
+
 app.use(cors());
 app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.json()); 
 
-// Serve the index.html file
+
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
-// Middleware for token verification
+
 const verifyToken = (req, res, next) => {
   const token = req.headers['authorization'];
   if (!token) {
@@ -58,7 +58,7 @@ const verifyToken = (req, res, next) => {
 };
 
 // Authentication routes
-app.post('/api/Login', async (req, res) => {
+app.post('/api/login', async (req, res) => {
   try {
     const { username, password } = req.body;
     const assignedToken = await getUser(username, password);
@@ -113,10 +113,10 @@ app.put('/api/planets/:planetid', verifyToken, async (req, res, next) => {
 });
 
 // User routes
-app.get('/api/users', verifyToken, async (req, res, next) => {
+app.get('/api/user-account', verifyToken, async (req, res, next) => {
   try {
-    const user = await getUserByToken(req.user);
-    res.json(user);
+    const user = req.user;
+    res.json({ name: user.name });
   } catch (err) {
     next(err);
   }
@@ -143,6 +143,9 @@ app.put('/api/change-email', verifyToken, async (req, res, next) => {
     res.status(500).json({ message: 'Email Change Failed', error: err.message });
   }
 });
+
+
+// app.post('/api/')
 
 
 const PORT = process.env.PORT || 5000;

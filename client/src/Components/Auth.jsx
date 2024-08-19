@@ -1,16 +1,15 @@
 import { useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import { AuthContext } from '../AuthContext';
 import './Login.css'; 
 
 const Auth = () => { 
-  const { token, setToken } = useContext(AuthContext);
   const [usernameInput, setUsernameInput] = useState("");
   const [emailInput, setEmailInput] = useState("");
   const [passwordInput, setPasswordInput] = useState("");
   const [secondaryPasswordInput, setSecondaryPasswordInput] = useState("");
   const [showLogin, setShowLogin] = useState(true);
+  const [token, setToken] = useState(null);
 
   const navigate = useNavigate();
 
@@ -41,11 +40,12 @@ const Auth = () => {
         username: usernameInput,
         password: passwordInput,
       });
-
+      
       if (response.status === 200) {
+        console.log(response.data)
+        localStorage.setItem('token', response.data.token); 
         setToken(response.data.token);
         navigate('/account')
-        localStorage.setItem('authToken', response.data.token); 
       } else {
         console.log(`Login failed:`, response.data.message);
       }
@@ -89,3 +89,9 @@ const Auth = () => {
 };
 
 export default Auth;
+
+
+
+
+
+
