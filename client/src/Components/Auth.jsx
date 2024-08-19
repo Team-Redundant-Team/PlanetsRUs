@@ -1,4 +1,4 @@
-import { useState, useContext } from 'react';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import './Login.css'; 
@@ -42,7 +42,6 @@ const Auth = () => {
       });
       
       if (response.status === 200) {
-        console.log(response.data)
         localStorage.setItem('token', response.data.token); 
         setToken(response.data.token);
         navigate('/account')

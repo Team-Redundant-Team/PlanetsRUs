@@ -27,7 +27,8 @@ const getUser = async(username, password) => {
     const passwordMatch = await bcrypt.compare(password, user.password);
 
     if(user && passwordMatch) {
-      const assignToken = await jwt.sign({userId: user.id }, process.env.JWT_SECRET);
+      const assignToken = await jwt.sign({userId: user.userId, username: user.username }, process.env.JWT_SECRET);
+      console.log(assignToken);
 
       return assignToken
     }else {

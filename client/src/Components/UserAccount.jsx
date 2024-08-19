@@ -23,8 +23,9 @@ const UserAccount = () => {
         });
 
         if(response.ok) {
-          const data =await response.json();
-          setUserName(data.name);
+          const data = await response.json();
+          console.log(data);
+          setUserName(data.username);
 
         }else {
           navigate('/auth');

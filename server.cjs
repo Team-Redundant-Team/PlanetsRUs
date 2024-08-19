@@ -7,9 +7,6 @@ const bodyParser = require('body-parser');
 const jwt = require('jsonwebtoken');
 const client = require('./db/client.cjs');
 
-
-
-
 const {
   createUser,
   getUser,
@@ -20,28 +17,33 @@ const {
 const {
   getAllPlanets,
   getPlanetDetails,
-  getOwnedBy,
   purchasePlanet,
 } = require('./db/planets.cjs');
 const { getPlanetReviews } = require('./db/reviews.cjs');
 
 const app = express();
 
-
+// Connect to the database
 client.connect();
 
-
+// Global Middleware
 app.use(cors());
 app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname, 'public')));
-app.use(express.json()); 
+app.use(express.json());
 
+// Global Logging Middleware (for debugging)
+app.use((req, res, next) => {
+  console.log(`Request Method: ${req.method}, Request URL: ${req.url}`);
+  next();
+});
 
+// Serve the main HTML file
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
-
+// Token Verification Middleware
 const verifyToken = (req, res, next) => {
   const token = req.headers['authorization'];
   if (!token) {
@@ -49,15 +51,16 @@ const verifyToken = (req, res, next) => {
   }
   try {
     const decoded = jwt.verify(token.split(' ')[1], process.env.JWT_SECRET);
+    console.log("Decoded token:", decoded);
     req.user = decoded;
+    next();
   } catch (error) {
-    console.error(error);
+    console.error('Token verification failed:', error);
     return res.status(403).send('Invalid Token');
   }
-  return next();
 };
 
-// Authentication routes
+// Authentication Routes
 app.post('/api/login', async (req, res) => {
   try {
     const { username, password } = req.body;
@@ -80,7 +83,7 @@ app.post('/api/register', async (req, res) => {
   }
 });
 
-// Planet routes
+// Planet Routes
 app.get('/api/planets/:planetid', async (req, res, next) => {
   try {
     const id = parseInt(req.params.planetid);
@@ -112,11 +115,12 @@ app.put('/api/planets/:planetid', verifyToken, async (req, res, next) => {
   }
 });
 
-// User routes
+// User Routes
 app.get('/api/user-account', verifyToken, async (req, res, next) => {
   try {
     const user = req.user;
-    res.json({ name: user.name });
+    console.log('User in route:', req);
+    res.json({ username: user.username });
   } catch (err) {
     next(err);
   }
@@ -144,10 +148,7 @@ app.put('/api/change-email', verifyToken, async (req, res, next) => {
   }
 });
 
-
-// app.post('/api/')
-
-
+// Start the Server
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
   console.log(`Listening on port: ${PORT}`);
